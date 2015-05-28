@@ -112,7 +112,7 @@
                     <!-- github repo name -->
                     <repositoryName>port-mvn-repo</repositoryName>
                     <!-- github organization -->
-                    <repositoryOwner>VH3</repositoryOwner>
+                    <repositoryOwner>tygron-virtual-humans</repositoryOwner>
                 </configuration>
                 <executions>
                     <!-- run site-maven-plugin as part of the build's 'deploy' phase -->
