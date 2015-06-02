@@ -59,12 +59,7 @@ public class PrologTermParser implements ITermParser {
     }
 
     private String parseJplString(jpl.Term jplTerm){
-        if(!(jplTerm.isAtom()))
-            throw new IllegalArgumentException();
-
-        jpl.Atom thisAtom = (jpl.Atom) jplTerm;
-
-        return thisAtom.name();
+        return jplTerm.toString();
     }
 
     @Override
@@ -75,9 +70,9 @@ public class PrologTermParser implements ITermParser {
     }
 
     private Boolean parseJplBoolean(jpl.Term jplTerm){
-        if(jplTerm.isJTrue())
+        if(jplTerm.toString().equalsIgnoreCase("true"))
             return true;
-        if(jplTerm.isJFalse())
+        if(jplTerm.toString().equalsIgnoreCase("false"))
             return false;
 
         throw new IllegalArgumentException();
@@ -97,11 +92,11 @@ public class PrologTermParser implements ITermParser {
         jpl.Compound thisCompound = (jpl.Compound) jplTerm;
 
         List<Object> res = new ArrayList<Object>();
-        while(!thisCompound.arg(1).name().equals("[]")){
-            res.add(parseJplAny(thisCompound.arg(0)));
-            thisCompound = (jpl.Compound)thisCompound.arg(1);
+        while(!thisCompound.arg(2).name().equals("[]")){
+            res.add(parseJplAny(thisCompound.arg(1)));
+            thisCompound = (jpl.Compound)thisCompound.arg(2);
         }
-        res.add(parseJplAny(thisCompound.arg(0)));
+        res.add(parseJplAny(thisCompound.arg(1)));
 
         return res;
     }
@@ -142,11 +137,11 @@ public class PrologTermParser implements ITermParser {
 
         List<Integer> res = new ArrayList<Integer>();
 
-        while(!thisCompound.arg(1).name().equals("[]")){
-            res.add(parseJplInt(thisCompound.arg(0)));
-            thisCompound = (jpl.Compound)thisCompound.arg(1);
+        while(!thisCompound.arg(2).name().equals("[]")){
+            res.add(parseJplInt(thisCompound.arg(1)));
+            thisCompound = (jpl.Compound)thisCompound.arg(2);
         }
-        res.add(parseJplInt(thisCompound.arg(0)));
+        res.add(parseJplInt(thisCompound.arg(1)));
 
         return res;
     }
@@ -162,11 +157,11 @@ public class PrologTermParser implements ITermParser {
 
         List<Double> res = new ArrayList<Double>();
 
-        while(!thisCompound.arg(1).name().equals("[]")){
-            res.add(parseJplDouble(thisCompound.arg(0)));
-            thisCompound = (jpl.Compound)thisCompound.arg(1);
+        while(!thisCompound.arg(2).name().equals("[]")){
+            res.add(parseJplDouble(thisCompound.arg(1)));
+            thisCompound = (jpl.Compound)thisCompound.arg(2);
         }
-        res.add(parseJplDouble(thisCompound.arg(0)));
+        res.add(parseJplDouble(thisCompound.arg(1)));
 
         return res;
     }
@@ -182,11 +177,11 @@ public class PrologTermParser implements ITermParser {
 
         List<String> res = new ArrayList<String>();
 
-        while(!thisCompound.arg(1).name().equals("[]")){
-            res.add(parseJplString(thisCompound.arg(0)));
-            thisCompound = (jpl.Compound)thisCompound.arg(1);
+        while(!thisCompound.arg(2).name().equals("[]")){
+            res.add(parseJplString(thisCompound.arg(1)));
+            thisCompound = (jpl.Compound)thisCompound.arg(2);
         }
-        res.add(parseJplString(thisCompound.arg(0)));
+        res.add(parseJplString(thisCompound.arg(1)));
 
         return res;
     }
@@ -202,11 +197,11 @@ public class PrologTermParser implements ITermParser {
 
         List<Boolean> res = new ArrayList<Boolean>();
 
-        while(!thisCompound.arg(1).name().equals("[]")){
-            res.add(parseJplBoolean(thisCompound.arg(0)));
-            thisCompound = (jpl.Compound)thisCompound.arg(1);
+        while(!thisCompound.arg(2).name().equals("[]")){
+            res.add(parseJplBoolean(thisCompound.arg(1)));
+            thisCompound = (jpl.Compound)thisCompound.arg(2);
         }
-        res.add(parseJplBoolean(thisCompound.arg(0)));
+        res.add(parseJplBoolean(thisCompound.arg(1)));
 
         return res;
     }
