@@ -82,5 +82,20 @@ public class GoalGamygdala {
         engine.decayAll();
     }
 
+    public void adoptGoal(String agentName, List<Term> terms){
+        String name = termParser.parseString(terms.get(0));
+        double utility = termParser.parseDouble(terms.get(1));
+        boolean isMaintenanceGoal = termParser.parseBoolean(terms.get(2));
+
+        engine.createGoalForAgent(agents.get(agentName),name,utility,isMaintenanceGoal);
+    }
+
+    public void createRelation(String agentName, List<Term> terms){
+        String otherAgentName = termParser.parseString(terms.get(0));
+        double relation = termParser.parseDouble(terms.get(1));
+
+        engine.createRelation(agents.get(agentName),agents.get(otherAgentName),relation);
+    }
+
 
 }
