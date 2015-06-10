@@ -27,14 +27,6 @@ public class GoalGamygdalaAgent {
         this.termParser = PrologTermParser.getInstance();
     }
 
-    public void adoptGoal(List<Term> terms){
-        String name = termParser.parseString(terms.get(0));
-        double utility = termParser.parseDouble(terms.get(1));
-        boolean isMaintenanceGoal = termParser.parseBoolean(terms.get(2));
-
-        agent.addGoal(new Goal(name,utility,isMaintenanceGoal));
-    }
-
     public void dropGoal(List<Term> terms)
     {
         String name = termParser.parseString(terms.get(0));
