@@ -51,16 +51,15 @@ public class GoalGamygdala {
         }
 
         Agent currentAgent = agents.get(currentAgentName);
-
         double likelihood = termParser.parseDouble(terms.get(0));
-
         Agent actor = agents.get(termParser.parseString(terms.get(1)));
 
         //Get the goals
         ArrayList<Goal> affectedGoals = new ArrayList<Goal>();
 
-        for(String goalName : termParser.parseStringList(terms.get(2)))
+        for(String goalName : termParser.parseStringList(terms.get(2))) {
             affectedGoals.add(currentAgent.getGoalByName(goalName));
+        }
 
         //Get the goal congruences
         //Hack until gamygdala is fixed

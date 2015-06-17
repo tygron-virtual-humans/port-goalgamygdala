@@ -30,19 +30,14 @@ public class GoalGamygdalaAgent {
     public void dropGoal(List<Term> terms)
     {
         String name = termParser.parseString(terms.get(0));
-
         agent.removeGoal(agent.getGoalByName(name));
     }
 
     public List<Compound> getEmotions() {
         AgentInternalState state = agent.getEmotionalState(agent.gain);
-
         List<Compound> res = new ArrayList<Compound>();
 
-
-        Iterator<Emotion> emotions = state.iterator();
-        while(emotions.hasNext()){
-            Emotion emotion = emotions.next();
+        for(Emotion emotion : state){
             res.add(new Compound("emotion",new jpl.Term[]{
                     new jpl.Atom(emotion.getName()),
                     new jpl.Float(emotion.getIntensity())
