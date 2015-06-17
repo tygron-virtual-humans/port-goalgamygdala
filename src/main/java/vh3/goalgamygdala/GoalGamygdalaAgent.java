@@ -44,8 +44,8 @@ public class GoalGamygdalaAgent {
         while(emotions.hasNext()){
             Emotion emotion = emotions.next();
             res.add(new Compound("emotion",new jpl.Term[]{
-                    new jpl.Atom(emotion.name),
-                    new jpl.Float(emotion.intensity)
+                    new jpl.Atom(emotion.getName()),
+                    new jpl.Float(emotion.getIntensity())
             }));
         }
 
