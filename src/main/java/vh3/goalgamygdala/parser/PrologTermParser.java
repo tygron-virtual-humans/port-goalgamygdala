@@ -10,20 +10,21 @@ import java.util.List;
  * Created by wouter on 28/05/15.
  */
 public class PrologTermParser implements ITermParser {
-    private static PrologTermParser ourInstance = new PrologTermParser();
+    private static PrologTermParser ourInstance = null;
 
     public static PrologTermParser getInstance() {
+        if(ourInstance == null) {
+            ourInstance = new PrologTermParser();
+        }
         return ourInstance;
     }
 
-    private PrologTermParser() {
-    }
+    private PrologTermParser() {}
 
     private jpl.Term getTerm(Term term){
         return ((PrologTerm)term).getTerm();
     }
 
-    @Override
     public double parseDouble(Term term){
         jpl.Term thisTerm = getTerm(term);
 
@@ -37,7 +38,6 @@ public class PrologTermParser implements ITermParser {
         return jplTerm.doubleValue();
     }
 
-    @Override
     public int parseInt(Term term) {
         jpl.Term thisTerm = getTerm(term);
 
@@ -51,7 +51,6 @@ public class PrologTermParser implements ITermParser {
         return jplTerm.intValue();
     }
 
-    @Override
     public String parseString(Term term) {
         jpl.Term thisTerm = getTerm(term);
 
@@ -62,7 +61,6 @@ public class PrologTermParser implements ITermParser {
         return jplTerm.toString();
     }
 
-    @Override
     public boolean parseBoolean(Term term) {
         jpl.Term thisTerm = getTerm(term);
 
@@ -78,7 +76,6 @@ public class PrologTermParser implements ITermParser {
         throw new IllegalArgumentException();
     }
 
-    @Override
     public List<Object> parseList(Term term) {
         jpl.Term jplTerm = getTerm(term);
 
@@ -126,7 +123,6 @@ public class PrologTermParser implements ITermParser {
         throw new IllegalArgumentException();
     }
 
-    @Override
     public List<Integer> parseIntList(Term term) {
         jpl.Term jplTerm = getTerm(term);
 
@@ -146,7 +142,6 @@ public class PrologTermParser implements ITermParser {
         return res;
     }
 
-    @Override
     public List<Double> parseDoubleList(Term term) {
         jpl.Term jplTerm = getTerm(term);
 
@@ -166,7 +161,6 @@ public class PrologTermParser implements ITermParser {
         return res;
     }
 
-    @Override
     public List<String> parseStringList(Term term) {
         jpl.Term jplTerm = getTerm(term);
 
@@ -186,7 +180,6 @@ public class PrologTermParser implements ITermParser {
         return res;
     }
 
-    @Override
     public List<Boolean> parseBooleanList(Term term) {
         jpl.Term jplTerm = getTerm(term);
 
