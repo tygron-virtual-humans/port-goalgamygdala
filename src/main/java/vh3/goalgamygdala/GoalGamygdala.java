@@ -6,8 +6,12 @@ import data.Goal;
 import exception.GoalCongruenceMapException;
 import gamygdala.Engine;
 import krTools.language.Term;
+import vh3.goalgamygdala.agent.AgentManager;
+import vh3.goalgamygdala.agent.GoalGamygdalaAgent;
 import vh3.goalgamygdala.parser.ITermParser;
 import vh3.goalgamygdala.parser.PrologTermParser;
+import vh3.goalgamygdala.relation.Relation;
+import vh3.goalgamygdala.relation.RelationManager;
 
 import java.util.*;
 
@@ -22,27 +26,27 @@ public class GoalGamygdala {
     }
 
     private Engine engine;
-    private Map<String, Agent> agents;
-    private Map<String, GoalGamygdalaAgent> ggAgents;
     private ITermParser termParser;
+    private AgentManager agentManager;
+    private RelationManager relationManager;
 
     private GoalGamygdala() {
         engine = Engine.getInstance();
-        agents = new HashMap<String, Agent>();
-        ggAgents = new HashMap<String, GoalGamygdalaAgent>();
 
         //Assume we're using prolog for now
         termParser = PrologTermParser.getInstance();
+
+        agentManager = AgentManager.getInstance();
+        relationManager = RelationManager.getInstance();
     }
 
     public void createAgent(String name) {
-        Agent agent = engine.createAgent(name);
-        agents.put(name,agent);
-        ggAgents.put(name,new GoalGamygdalaAgent(agent));
+        agentManager.createAgent(name);
+        relationManager.processNewRelations(name);
     }
 
     public GoalGamygdalaAgent getAgentByName(String name) {
-        return ggAgents.get(name);
+        return agentManager.getGoalGamygdalaAgent(name);
     }
 
     public void appraise(String currentAgentName, List<Term> terms) throws IllegalArgumentException{
@@ -50,9 +54,9 @@ public class GoalGamygdala {
             throw new IllegalArgumentException();
         }
 
-        Agent currentAgent = agents.get(currentAgentName);
+        Agent currentAgent = agentManager.getAgent(currentAgentName);
         double likelihood = termParser.parseDouble(terms.get(0));
-        Agent actor = agents.get(termParser.parseString(terms.get(1)));
+        Agent actor = agentManager.getAgent(termParser.parseString(terms.get(1)));
 
         //Get the goals
         ArrayList<Goal> affectedGoals = new ArrayList<Goal>();
@@ -70,7 +74,7 @@ public class GoalGamygdala {
         try {
             engine.appraise(new Belief(
                     likelihood,actor,affectedGoals,goalCongruences,isIncremental),
-                    agents.get(currentAgentName)
+                    agentManager.getAgent(currentAgentName)
                     );
         } catch (GoalCongruenceMapException e) {
             e.printStackTrace();
@@ -86,14 +90,14 @@ public class GoalGamygdala {
         double utility = termParser.parseDouble(terms.get(1));
         boolean isMaintenanceGoal = termParser.parseBoolean(terms.get(2));
 
-        engine.createGoalForAgent(agents.get(agentName),name,utility,isMaintenanceGoal);
+        engine.createGoalForAgent(agentManager.getAgent(agentName),name,utility,isMaintenanceGoal);
     }
 
     public void createRelation(String agentName, List<Term> terms){
         String otherAgentName = termParser.parseString(terms.get(0));
         double relation = termParser.parseDouble(terms.get(1));
 
-        engine.createRelation(agents.get(agentName),agents.get(otherAgentName),relation);
+        relationManager.createRelation(agentName,otherAgentName,relation);
     }
 
 
