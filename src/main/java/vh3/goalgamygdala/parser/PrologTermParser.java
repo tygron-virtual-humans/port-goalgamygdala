@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * Created by wouter on 28/05/15.
+ * The prolog-specific implementation of the term parser.
  */
 public class PrologTermParser implements ITermParser {
     private static PrologTermParser ourInstance = null;

@@ -11,6 +11,9 @@ import java.util.Map;
 
 /**
  * Created by wouter on 17/06/15.
+ *
+ * Manages relations, so that the creation of relations towards not-yet-exisiting agents
+ * is not a problem.
  */
 public class RelationManager {
     private static RelationManager ourInstance;
@@ -25,6 +28,9 @@ public class RelationManager {
         return ourInstance;
     }
 
+    /**
+     * The relations to be processed, per not-yet-existing target
+     */
     private Map<String,List<Relation>> relationsToBeProcessed;
 
     private RelationManager(){
@@ -33,6 +39,13 @@ public class RelationManager {
         this.agentManager = AgentManager.getInstance();
     }
 
+    /**
+     * If the target exists, create a new relation. If it doesn't exist,
+     * store the relation in the relations to be processed.
+     * @param source
+     * @param target
+     * @param relation
+     */
     public void createRelation(String source, String target, double relation){
         Agent sourceAgent = agentManager.getAgent(source);
         Agent targetAgent = agentManager.getAgent(target);
@@ -50,6 +63,10 @@ public class RelationManager {
         }
     }
 
+    /**
+     * Call upon creation of a new agent. All relations towards that agent will be processed.
+     * @param newAgent
+     */
     public void processNewRelations(String newAgent){
         List<Relation> relations = relationsToBeProcessed.get(newAgent);
         if(relations != null){

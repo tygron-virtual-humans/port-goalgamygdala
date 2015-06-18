@@ -6,6 +6,7 @@ import java.util.List;
 
 /**
  * Created by wouter on 28/05/15.
+ * The interface that defines what types of values a term parser must be able to parse.
  */
 public interface ITermParser {
 

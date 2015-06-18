@@ -17,6 +17,10 @@ import java.util.*;
 
 /**
  * Created by wouter on 28/05/15.
+ * The interface between GOAL and Gamygdala.
+ * It expects GOAL to just forward their method calls with their GOAL Terms,
+ * so that GOAL does not have to know anything about the implementation of
+ * GAMYGDALA itself.
  */
 public class GoalGamygdala {
     private static GoalGamygdala ourInstance = new GoalGamygdala();
@@ -40,15 +44,32 @@ public class GoalGamygdala {
         relationManager = RelationManager.getInstance();
     }
 
+    /**
+     * Creates a new agent. Every agent in GOAL that wants to use gamygdala is supposed to
+     * use this method.
+     * After creating the agent, any pending relations towards that agent are also processed.
+     * @param name The name of the new agent.
+     */
     public void createAgent(String name) {
         agentManager.createAgent(name);
         relationManager.processNewRelations(name);
     }
 
+    /**
+     * Gets the interface Agent for agent-specific features.
+     * @param name
+     * @return
+     */
     public GoalGamygdalaAgent getAgentByName(String name) {
         return agentManager.getGoalGamygdalaAgent(name);
     }
 
+    /**
+     * Appraises the action specified in the terms.
+     * @param currentAgentName The current agent
+     * @param terms The terms that have been specified
+     * @throws IllegalArgumentException
+     */
     public void appraise(String currentAgentName, List<Term> terms) throws IllegalArgumentException{
         if(terms.size() < 5) {
             throw new IllegalArgumentException();
@@ -81,10 +102,18 @@ public class GoalGamygdala {
         }
     }
 
+    /**
+     * Decays all emotions by forwarding this call to the engine.
+     */
     public void decayAll(){
         engine.decayAll();
     }
 
+    /**
+     * Make an agent adopt a goal
+     * @param agentName The agent that adopts the goal
+     * @param terms The specifications of the goal
+     */
     public void adoptGoal(String agentName, List<Term> terms){
         String name = termParser.parseString(terms.get(0));
         double utility = termParser.parseDouble(terms.get(1));
@@ -93,6 +122,11 @@ public class GoalGamygdala {
         engine.createGoalForAgent(agentManager.getAgent(agentName),name,utility,isMaintenanceGoal);
     }
 
+    /**
+     * Create a relation between to agents.
+     * @param agentName The agent that wants to create a relation
+     * @param terms The target and intensity of the relation
+     */
     public void createRelation(String agentName, List<Term> terms){
         String otherAgentName = termParser.parseString(terms.get(0));
         double relation = termParser.parseDouble(terms.get(1));
