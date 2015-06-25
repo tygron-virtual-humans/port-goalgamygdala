@@ -18,8 +18,8 @@ import java.util.Map;
 public class RelationManager {
     private static RelationManager ourInstance;
 
-    private Engine engine;
-    private AgentManager agentManager;
+    private final Engine engine;
+    private final AgentManager agentManager;
 
     public static RelationManager getInstance() {
         if(ourInstance == null){
@@ -31,7 +31,7 @@ public class RelationManager {
     /**
      * The relations to be processed, per not-yet-existing target
      */
-    private Map<String,List<Relation>> relationsToBeProcessed;
+    private final Map<String,List<Relation>> relationsToBeProcessed;
 
     private RelationManager(){
         relationsToBeProcessed = new HashMap<String,List<Relation>>();
@@ -59,7 +59,7 @@ public class RelationManager {
             relationsToBeProcessed.put(target,relations);
         }
         else{
-            engine.createRelation(agentManager.getAgent(source),agentManager.getAgent(target),relation);
+            engine.createRelation(sourceAgent,targetAgent,relation);
         }
     }
 

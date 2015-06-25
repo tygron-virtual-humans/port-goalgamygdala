@@ -23,9 +23,9 @@ public class AgentManager {
     }
 
 
-    private Map<String, Agent> agents;
-    private Map<String, GoalGamygdalaAgent> ggAgents;
-    private Engine engine;
+    private final Map<String, Agent> agents;
+    private final Map<String, GoalGamygdalaAgent> ggAgents;
+    private final Engine engine;
 
     private AgentManager(){
         agents = new HashMap<String,Agent>();

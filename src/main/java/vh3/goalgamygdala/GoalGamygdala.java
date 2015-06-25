@@ -8,9 +8,8 @@ import gamygdala.Engine;
 import krTools.language.Term;
 import vh3.goalgamygdala.agent.AgentManager;
 import vh3.goalgamygdala.agent.GoalGamygdalaAgent;
-import vh3.goalgamygdala.parser.ITermParser;
+import vh3.goalgamygdala.parser.TermParser;
 import vh3.goalgamygdala.parser.PrologTermParser;
-import vh3.goalgamygdala.relation.Relation;
 import vh3.goalgamygdala.relation.RelationManager;
 
 import java.util.*;
@@ -23,16 +22,16 @@ import java.util.*;
  * GAMYGDALA itself.
  */
 public class GoalGamygdala {
-    private static GoalGamygdala ourInstance = new GoalGamygdala();
+    private static final GoalGamygdala ourInstance = new GoalGamygdala();
 
     public static GoalGamygdala getInstance() {
         return ourInstance;
     }
 
-    private Engine engine;
-    private ITermParser termParser;
-    private AgentManager agentManager;
-    private RelationManager relationManager;
+    private final Engine engine;
+    private final TermParser termParser;
+    private final AgentManager agentManager;
+    private final RelationManager relationManager;
 
     private GoalGamygdala() {
         engine = Engine.getInstance();
@@ -57,7 +56,7 @@ public class GoalGamygdala {
 
     /**
      * Gets the interface Agent for agent-specific features.
-     * @param name
+     * @param name the name of the specific agent.
      * @return
      */
     public GoalGamygdalaAgent getAgentByName(String name) {

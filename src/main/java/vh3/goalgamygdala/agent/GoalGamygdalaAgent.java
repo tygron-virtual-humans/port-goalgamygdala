@@ -3,14 +3,12 @@ package vh3.goalgamygdala.agent;
 import agent.Agent;
 import agent.AgentInternalState;
 import data.Emotion;
-import data.Goal;
 import jpl.Compound;
 import krTools.language.Term;
-import vh3.goalgamygdala.parser.ITermParser;
+import vh3.goalgamygdala.parser.TermParser;
 import vh3.goalgamygdala.parser.PrologTermParser;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -19,8 +17,8 @@ import java.util.List;
  */
 public class GoalGamygdalaAgent {
 
-    private Agent agent;
-    private ITermParser termParser;
+    private final Agent agent;
+    private final TermParser termParser;
 
     public GoalGamygdalaAgent(Agent agent)
     {
@@ -47,9 +45,10 @@ public class GoalGamygdalaAgent {
         List<Compound> res = new ArrayList<Compound>();
 
         for(Emotion emotion : state){
+            double intensity = Math.ceil(1000000000d*emotion.getIntensity())/1000000000d;
             res.add(new Compound("emotion",new jpl.Term[]{
                     new jpl.Atom(emotion.getName()),
-                    new jpl.Float(emotion.getIntensity())
+                    new jpl.Float(intensity)
             }));
         }
 

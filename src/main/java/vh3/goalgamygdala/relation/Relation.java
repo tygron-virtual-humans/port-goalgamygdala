@@ -2,8 +2,10 @@ package vh3.goalgamygdala.relation;
 
 /**
  * Created by wouter on 17/06/15.
+ * Defines a Relation between two agents, so that is can be stored
+ * and applied later, when the target agent comes to exist.
  */
-public class Relation {
+class Relation {
     public String getSource() {
         return source;
     }
@@ -16,8 +18,9 @@ public class Relation {
         return value;
     }
 
-    private String source, dest;
-    private double value;
+    private final String source;
+    private final String dest;
+    private final double value;
 
     public Relation(String source, String dest, double value) {
         this.source = source;

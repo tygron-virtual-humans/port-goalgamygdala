@@ -10,7 +10,7 @@ import java.util.List;
  * Created by wouter on 28/05/15.
  * The prolog-specific implementation of the term parser.
  */
-public class PrologTermParser implements ITermParser {
+public class PrologTermParser implements TermParser {
     private static PrologTermParser ourInstance = null;
 
     public static PrologTermParser getInstance() {
@@ -68,7 +68,7 @@ public class PrologTermParser implements ITermParser {
         return parseJplBoolean(thisTerm);
     }
 
-    private Boolean parseJplBoolean(jpl.Term jplTerm){
+    private boolean parseJplBoolean(jpl.Term jplTerm){
         if(jplTerm.toString().equalsIgnoreCase("true"))
             return true;
         if(jplTerm.toString().equalsIgnoreCase("false"))
